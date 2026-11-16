@@ -1,10 +1,20 @@
-from flask import Flask, send_from_directory
+import streamlit as st
+import streamlit.components.v1 as components
+from pathlib import Path
 
-app = Flask(__name__)
+st.set_page_config(
+    page_title="Aashna | Portfolio",
+    layout="wide"
+)
 
-@app.route("/")
-def home():
-    return send_from_directory(".", "portfolio.html")
+html_file = Path(__file__).parent / "portfolio.html"
 
-if __name__ == "__main__":
-    app.run(debug=True)
+if html_file.exists():
+    html_code = html_file.read_text(encoding="utf-8")
+    components.html(
+        html_code,
+        height=2000,
+        scrolling=True
+    )
+else:
+    st.error("Portfolio HTML file not found!")
